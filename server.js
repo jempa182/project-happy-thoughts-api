@@ -40,6 +40,28 @@ const thoughtSchema = new Schema({
 
 const Thought = model("Thought", thoughtSchema)
 
+// Routes
+app.get("/", (req, res) => {
+  res.send("Happy Thoughts API")
+})
+
+// Get all thoughts (latest 20)
+app.get("/thoughts", async (req, res) => {
+  try {
+    const thoughts = await Thought
+      .find()
+      .sort({ createdAt: -1 })
+      .limit(20)
+
+    res.json(thoughts)
+  } catch (error) {
+    res.status(400).json({
+      success: false,
+      message: "Could not get thoughts"
+    })
+  }
+})
+
 // Start defining your routes here
 app.get("/", (req, res) => {
   res.send("Hello Technigo!");
