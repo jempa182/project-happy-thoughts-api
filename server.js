@@ -62,6 +62,27 @@ app.get("/thoughts", async (req, res) => {
   }
 })
 
+// Create a new thought
+app.post("/thoughts", async (req, res) => {
+  const { message } = req.body
+
+  try {
+    const thought = await new Thought({ message }).save()
+
+    res.status(201).json({
+      success: true,
+      response: thought,
+      message: "Thought was created successfully!"
+    })
+  } catch (error) {
+    res.status(400).json({
+      success: false,
+      message: "Thought could not be created",
+      errors: error.errors
+    })
+  }
+})
+
 // Start defining your routes here
 app.get("/", (req, res) => {
   res.send("Hello Technigo!");
