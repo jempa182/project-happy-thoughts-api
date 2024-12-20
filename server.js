@@ -16,7 +16,7 @@ try {
 }
 
 // Setup the server
-const port = process.env.PORT || 10000
+const port = process.env.PORT || 8080
 const app = express()
 
 // Add middlewares
