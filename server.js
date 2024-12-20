@@ -83,10 +83,37 @@ app.post("/thoughts", async (req, res) => {
   }
 })
 
-// Start defining your routes here
-app.get("/", (req, res) => {
-  res.send("Hello Technigo!");
-});
+// Like a thought
+app.post("/thoughts/:thoughtId/like", async (req, res) => {
+  const { thoughtId } = req.params
+
+  try {
+    const updatedThought = await Thought.findByIdAndUpdate(
+      thoughtId,
+      { $inc: { hearts: 1 } },
+      { new: true }
+    )
+
+    if (updatedThought) {
+      res.json({
+        success: true,
+        response: updatedThought,
+        message: "Heart added to thought!"
+      })
+    } else {
+      res.status(404).json({
+        success: false,
+        message: "Thought not found"
+      })
+    }
+  } catch (error) {
+    res.status(400).json({
+      success: false,
+      message: "Could not like thought"
+    })
+  }
+})
+
 
 // Start the server
 app.listen(port, () => {
