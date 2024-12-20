@@ -42,9 +42,15 @@ const Thought = model("Thought", thoughtSchema)
 
 // Routes
 app.get("/", (req, res) => {
-  res.send("Happy Thoughts API")
+  res.json({
+    endpoints: {
+      welcome: "Welcome to Happy Thoughts API! Here are all available endpoints:",
+      get_thoughts: "GET /thoughts - Get the 20 most recent thoughts",
+      create_thought: "POST /thoughts - Create a new thought (requires message in body)",
+      like_thought: "POST /thoughts/:thoughtId/like - Like a specific thought"
+    }
+  })
 })
-
 // Get all thoughts (latest 20)
 app.get("/thoughts", async (req, res) => {
   try {
